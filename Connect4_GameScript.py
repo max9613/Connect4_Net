@@ -76,26 +76,26 @@ class game_board:
             previous = None
             count = 0
             for num in row:
-                if count >= 4 and previous != 0:
-                    return previous
                 if num == previous:
                     count += 1
                 else:
                     previous = num
                     count = 1
+                if count >= 4 and previous != 0:
+                    return previous
         # Checks columns.
         for x in range(7):
             previous = None
             count = 0
             for y in range(6):
                 num = self.board[y][x]
-                if count >= 4 and previous != 0:
-                    return previous
                 if num == previous:
                     count += 1
                 else:
                     previous = num
                     count = 1
+                if count >= 4 and previous != 0:
+                    return previous
         # Checks diagonals.
         for y in range(6):
             for x in range(7):
@@ -281,7 +281,7 @@ def watch_net_games(population,auto_run=False):
                 logic_engine_1 = logic_engine_wrapper(logic_engine=population[i][0])
                 logic_engine_2 = logic_engine_wrapper(logic_engine=population[i+j][0])
                 result = play_game(logic_engines=[logic_engine_1,logic_engine_2],verbose=True)
-                print(f'WINNER : {logic_engine_1.logic_engine.name if result == 1 else logic_engine_2.logic_engine.name}')
+                print(f'WINNER : {logic_engine_1.logic_engine.name if result == 1 else (logic_engine_2.logic_engine.name if result == -1 else "NONE")}')
                 if not auto_run:
                     input('PRESS ANY KEY TO CONTINUE')
                 else:
@@ -289,7 +289,7 @@ def watch_net_games(population,auto_run=False):
     print('ALL GAMES COMPLETED')
 
 population = load_wrapped_net_population('eigthTrial')[0]
-#watch_net_games(population,auto_run=True)
-logic_engine_1 = logic_engine_wrapper(logic_engine=population[0][0])
-print(play_game(logic_engines=[logic_engine_1]))
+watch_net_games(population,auto_run=True)
+#logic_engine_1 = logic_engine_wrapper(logic_engine=population[0][0])
+#print(play_game(logic_engines=[logic_engine_1]))
 #print(play_game())
